@@ -49,7 +49,7 @@ Bot ini cerdas, kontekstual, dan **mudah dikonfigurasi**.
 Pastikan Anda telah menginstal **Node.js v16+**
 
 ```bash
-npm install whatsapp-web.js qrcode-terminal node-fetch
+npm install whatsapp-sales-bot-ai
 ```
 
 ---
