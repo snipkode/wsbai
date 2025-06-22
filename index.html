@@ -1,0 +1,471 @@
+<h1 id="-whatsapp-sales-bot-ai">📱 WhatsApp Sales Bot AI</h1>
+<p>Bot WhatsApp canggih berbasis <strong>Google Gemini</strong>, dirancang untuk:</p>
+<ul>
+<li>Mengotomatiskan interaksi pelanggan  </li>
+<li>Menangani penjualan  </li>
+<li>Berpartisipasi dalam percakapan grup secara natural</li>
+</ul>
+<p>Bot ini cerdas, kontekstual, dan <strong>mudah dikonfigurasi</strong>.</p>
+<hr>
+<h2 id="-fitur-utama">🚀 Fitur Utama</h2>
+<ul>
+<li><p><strong>🤖 AI Kontekstual Ganda</strong><br>Gunakan prompt berbeda untuk:</p>
+<ul>
+<li><strong>Chat pribadi</strong> (riwayat 20 pesan, fokus penjualan)  </li>
+<li><strong>Grup</strong> (riwayat 10 pesan, gaya santai)</li>
+</ul>
+</li>
+<li><p><strong>🛍️ Mode Jualan &amp; Percakapan</strong><br>Deteksi otomatis:</p>
+<ul>
+<li>Perintah penjualan (<code>menu</code>, <code>pesan A</code>, dll.)</li>
+<li>Pertanyaan umum (dijawab AI)</li>
+</ul>
+</li>
+<li><p><strong>📦 Manajemen Produk</strong><br>Tambah, hapus, dan kelola produk dari file konfigurasi</p>
+</li>
+<li><p><strong>💳 Pemesanan &amp; Pembayaran</strong><br>Dari permintaan hingga informasi transfer</p>
+</li>
+<li><p><strong>👁️ Validasi Bukti Transfer (AI)</strong> <em>(opsional)</em><br>Validasi otomatis gambar bukti transfer</p>
+</li>
+<li><p><strong>🛡️ Kontrol Akses Fleksibel</strong>  </p>
+<ul>
+<li><strong>Whitelist Grup</strong>: aktif hanya di grup tertentu  </li>
+<li><strong>Blacklist User</strong>: abaikan nomor tertentu  </li>
+<li><strong>Abaikan Kontak Tersimpan</strong>: mencegah interaksi tidak perlu</li>
+</ul>
+</li>
+<li><p><strong>⚙️ Konfigurasi Mudah</strong><br>Semua pengaturan bot dalam satu objek konfigurasi</p>
+</li>
+<li><p><strong>📝 Logging Detail</strong><br>Catat semua aktivitas bot (proses dan yang diabaikan)</p>
+</li>
+</ul>
+<hr>
+<h2 id="-instalasi">📦 Instalasi</h2>
+<p>Pastikan Anda telah menginstal <strong>Node.js v16+</strong></p>
+<pre><code class="lang-bash">npm install whatsapp-web.js qrcode-terminal <span class="hljs-keyword">node</span><span class="hljs-title">-fetch</span>
+</code></pre>
+<hr>
+<h2 id="-cara-penggunaan">⚙️ Cara Penggunaan</h2>
+<ol>
+<li>Salin kode <code>index.ts</code> ke proyek Anda  </li>
+<li>Buat file baru, contoh: <code>app.js</code></li>
+</ol>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> { WhatsAppSalesBot } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'whatsapp-sales-bot-ai'</span>); <span class="hljs-comment">// Sesuaikan path Anda</span>
+
+<span class="hljs-keyword">const</span> botConfig = {
+  <span class="hljs-attr">geminiApiKey</span>: <span class="hljs-string">"YOUR_GEMINI_API_KEY"</span>,
+  <span class="hljs-attr">products</span>: {
+    <span class="hljs-string">'WD01'</span>: {
+      <span class="hljs-attr">kode</span>: <span class="hljs-string">'WD01'</span>,
+      <span class="hljs-attr">nama</span>: <span class="hljs-string">'Jasa Pembuatan Website'</span>,
+      <span class="hljs-attr">deskripsi</span>: <span class="hljs-string">'Website profesional untuk profil perusahaan atau toko online. Modern, responsif, dan cepat.'</span>,
+      <span class="hljs-attr">harga</span>: <span class="hljs-string">'Mulai dari Rp 3.000.000'</span>
+    },
+    <span class="hljs-string">'DM01'</span>: {
+      <span class="hljs-attr">kode</span>: <span class="hljs-string">'DM01'</span>,
+      <span class="hljs-attr">nama</span>: <span class="hljs-string">'Paket Digital Marketing'</span>,
+      <span class="hljs-attr">deskripsi</span>: <span class="hljs-string">'Layanan SEO, Manajemen Media Sosial, dan Iklan Digital lengkap untuk bisnis Anda.'</span>,
+      <span class="hljs-attr">harga</span>: <span class="hljs-string">'Rp 2.500.000 / bulan'</span>
+    }
+  },
+  <span class="hljs-attr">botName</span>: <span class="hljs-string">'Asisten Digital'</span>,
+  <span class="hljs-attr">companyDescription</span>: <span class="hljs-string">'sebuah agensi digital kreatif'</span>,
+  <span class="hljs-attr">enableAI</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">enableLogging</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">groupWhitelist</span>: [
+    <span class="hljs-string">'120363041234567890@g.us'</span>
+  ],
+  <span class="hljs-attr">userBlacklist</span>: [
+    <span class="hljs-string">'6281234567890@c.us'</span>
+  ],
+  <span class="hljs-attr">greetingMessage</span>: <span class="hljs-string">'👋 Halo! Selamat datang di layanan kami. Ketik *menu* untuk melihat apa saja yang bisa kami bantu.'</span>,
+  <span class="hljs-attr">dailyGroupMessageLimit</span>: <span class="hljs-number">20</span>,
+  <span class="hljs-attr">replyTimeout</span>: { <span class="hljs-attr">min</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">max</span>: <span class="hljs-number">3</span> }
+};
+
+<span class="hljs-keyword">const</span> bot = <span class="hljs-keyword">new</span> WhatsAppSalesBot(botConfig);
+
+bot.start().catch(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">"Gagal menjalankan bot:"</span>, err));
+</code></pre>
+<hr>
+<h2 id="-konfigurasi-lengkap-botconfig-">🔧 Konfigurasi Lengkap (<code>BotConfig</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Properti</th>
+<th>Tipe</th>
+<th>Deskripsi</th>
+<th>Wajib?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>geminiApiKey</code></td>
+<td><code>string</code></td>
+<td>Kunci API Google Gemini</td>
+<td>Ya (jika <code>enableAI = true</code>)</td>
+</tr>
+<tr>
+<td><code>products</code></td>
+<td><code>Record&lt;string, ProductData&gt;</code></td>
+<td>Katalog produk/layanan</td>
+<td>Ya</td>
+</tr>
+<tr>
+<td><code>enableAI</code></td>
+<td><code>boolean</code></td>
+<td>Aktifkan atau nonaktifkan AI</td>
+<td>Tidak (default: <code>true</code>)</td>
+</tr>
+<tr>
+<td><code>botName</code></td>
+<td><code>string</code></td>
+<td>Nama bot saat memperkenalkan diri</td>
+<td>Tidak</td>
+</tr>
+<tr>
+<td><code>companyDescription</code></td>
+<td><code>string</code></td>
+<td>Deskripsi singkat perusahaan untuk konteks AI</td>
+<td>Tidak</td>
+</tr>
+<tr>
+<td><code>groupWhitelist</code></td>
+<td><code>string[]</code></td>
+<td>Daftar ID grup yang diizinkan</td>
+<td>Tidak</td>
+</tr>
+<tr>
+<td><code>userBlacklist</code></td>
+<td><code>string[]</code></td>
+<td>Daftar nomor pengguna yang akan diabaikan</td>
+<td>Tidak</td>
+</tr>
+<tr>
+<td><code>rekeningInfo</code></td>
+<td><code>RekeningData[]</code></td>
+<td>Informasi rekening untuk proses pembayaran</td>
+<td>Tidak</td>
+</tr>
+<tr>
+<td><code>greetingMessage</code></td>
+<td><code>string</code></td>
+<td>Pesan pembuka saat pengguna memicu menu</td>
+<td>Tidak</td>
+</tr>
+<tr>
+<td><code>fallbackMessage</code></td>
+<td><code>string</code></td>
+<td>Balasan jika AI nonaktif &amp; tidak ada kata kunci cocok</td>
+<td>Tidak</td>
+</tr>
+<tr>
+<td><code>menuTriggers</code></td>
+<td><code>string[]</code></td>
+<td>Daftar kata kunci untuk memicu menu (<code>menu</code>, <code>halo</code>, <code>start</code>, dll.)</td>
+<td>Tidak</td>
+</tr>
+<tr>
+<td><code>dailyGroupMessageLimit</code></td>
+<td><code>number</code></td>
+<td>Jumlah maksimum pesan AI yang dijawab per grup per hari <em>(fitur baru)</em></td>
+<td>Tidak (default: <code>20</code>)</td>
+</tr>
+<tr>
+<td><code>replyTimeout</code></td>
+<td><code>{ min: number, max: number }</code></td>
+<td>Jeda acak (dalam detik) sebelum bot membalas pesan <em>(simulasi natural)</em></td>
+<td>Tidak (default: <code>{ min: 1, max: 3 }</code>)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="-cara-kerja-bot">⚙️ Cara Kerja Bot</h2>
+<p><strong>1. Mode Jualan</strong><br>Jika pesan cocok dengan keyword:</p>
+<ul>
+<li><code>menu</code>, <code>halo</code>, <code>start</code>: tampilkan produk  </li>
+<li><code>WD01</code>: tampilkan detail produk  </li>
+<li><code>pesan WD01</code>: mulai alur pemesanan  </li>
+</ul>
+<p><strong>2. Mode Percakapan (AI)</strong><br>Jika tidak cocok dengan keyword, serahkan ke AI:</p>
+<ul>
+<li><strong>Chat pribadi</strong>: riwayat 20 pesan  </li>
+<li><strong>Grup</strong>: riwayat 10 pesan</li>
+</ul>
+<hr>
+<h2 id="advanced-konfigurasi-bot-untuk-personalisasi-cerdas-untuk-respon-kontekstual">Advanced Konfigurasi Bot Untuk Personalisasi Cerdas untuk Respon Kontekstual</h2>
+<p>Bot menggunakan dua jenis <strong>prompt template yang dirancang khusus</strong>, untuk memberikan pengalaman komunikasi yang cerdas dan relevan.</p>
+<hr>
+<h3 id="demo-konfigurasi">DEMO KONFIGURASI</h3>
+<pre><code class="lang-javascript">const botConfig = {
+    enableAI: true,
+    geminiApiKey: <span class="hljs-string">"APIKEY_GEMINI"</span>, // PENTING: Ganti dengan API Key Anda
+    groupWhitelist: [
+        <span class="hljs-string">'120363418699892647@g.us'</span>,
+        <span class="hljs-string">'120363401047245879@g.us'</span>
+    ],
+    userBlacklist: [
+    ],
+    products: {
+        <span class="hljs-string">'PKG001'</span>: {
+            kode: <span class="hljs-string">'PKG001'</span>,
+            nama: <span class="hljs-string">'Paket Branding Digital'</span>,
+            deskripsi: <span class="hljs-string">'Desain logo, identitas visual, dan template media sosial profesional.'</span>,
+            harga: <span class="hljs-string">'Rp 1.750.000'</span>
+        },
+        <span class="hljs-string">'PKG002'</span>: {
+            kode: <span class="hljs-string">'PKG002'</span>,
+            nama: <span class="hljs-string">'Pembuatan Website UMKM'</span>,
+            deskripsi: <span class="hljs-string">'Website landing page untuk UMKM. Mobile friendly, SEO-ready, termasuk domain &amp; hosting 1 tahun.'</span>,
+            harga: <span class="hljs-string">'Rp 2.999.000'</span>
+        },
+        <span class="hljs-string">'PKG003'</span>: {
+            kode: <span class="hljs-string">'PKG003'</span>,
+            nama: <span class="hljs-string">'Iklan Instagram &amp; Facebook'</span>,
+            deskripsi: <span class="hljs-string">'Setup iklan FB/IG untuk promosi produk/jasa Anda. Target audience + copywriting termasuk.'</span>,
+            harga: <span class="hljs-string">'Mulai dari Rp 1.000.000 / kampanye'</span>
+        }
+    },
+    rekeningInfo: [
+        { bank: <span class="hljs-string">'BCA'</span>, nomor: <span class="hljs-string">'01923189132'</span>, nama: <span class="hljs-string">'Alam Wibowo'</span> },
+        { bank: <span class="hljs-string">'BRI'</span>, nomor: <span class="hljs-string">'0185-01-02183-509'</span>, nama: <span class="hljs-string">'Alam Wibowo'</span> }
+    ],
+    botName: <span class="hljs-string">'Luna'</span>,
+    greetingMessage: `👋 Halo kak, Selamat datang di *Arkana Tech Solution*.\n\nSaya bisa bantu Anda menemukan layanan terbaik kami untuk kebutuhan digital bisnis Anda.`,
+    fallbackMessage: <span class="hljs-string">'Maaf, saya tidak mengerti. Ketik *menu* untuk melihat semua layanan.'</span>,
+    enableLogging: true,
+    menuTriggers: [<span class="hljs-string">'menu'</span>, <span class="hljs-string">'halo'</span>, <span class="hljs-string">'list'</span>, <span class="hljs-string">'bantuan'</span>, <span class="hljs-string">'hai'</span>],
+    dailyGroupMessageLimit: <span class="hljs-number">5</span>,
+    replyTimeout: { min: <span class="hljs-number">1</span>, max: <span class="hljs-number">5</span> },
+    privateChatPromptTemplate: `
+                                [PERAN UTAMA]
+                                Anda adalah <span class="hljs-string">'{botName}'</span>, asisten customer service yang profesional, ramah, dan sangat membantu dari perusahaan kami.
+
+                                [TUGAS UTAMA]
+                                Tugas Anda adalah menjawab pertanyaan pengguna, memberikan informasi produk, dan membantu proses pemesanan. Fokus utama Anda adalah pada layanan yang ditawarkan perusahaan.
+
+                                [ATURAN PENTING]
+                                <span class="hljs-number">1</span>.  **FOKUS**: Jawab pertanyaan HANYA berdasarkan konteks yang diberikan. Jangan pernah mengarang informasi.
+                                <span class="hljs-number">2</span>.  **BATASAN TOPIK**: JANGAN menjawab pertanyaan yang sama sekali tidak berhubungan dengan produk atau perusahaan (misalnya: pertanyaan pribadi, politik, cuaca, topik umum).
+                                <span class="hljs-number">3</span>.  **STRATEGI PENGALIHAN**: Jika pengguna bertanya di luar topik, TOLAK dengan sopan dan segera ARAHKAN kembali percakapan ke produk/layanan. Contoh: <span class="hljs-string">"Maaf, saya hanya bisa membantu terkait produk dan layanan kami. Apakah ada yang bisa saya bantu seputar itu?"</span>.
+                                <span class="hljs-number">4</span>.  **TONE BAHASA**: Gunakan bahasa yang jelas, sopan, dan profesional.
+
+                                ---
+                                [INFO PRODUK]
+                                {productInfo}
+                                ---
+                                [KONTEKS PERCAKAPAN SEBELUMNYA]
+                                {chatHistory}
+                                {replyContext}
+                                ---
+
+                                [WAKTU SAAT INI]
+                                {currentTime}
+
+                                [PESAN BARU DARI PENGGUNA]
+                                <span class="hljs-string">"{userMessage}"</span>
+
+                                [JAWABAN ANDA]`,
+    groupChatPromptTemplate: `
+                                [PERAN UTAMA]
+                                Anda adalah <span class="hljs-string">'{botName}'</span>, seorang partisipan yang berpengetahuan dan ramah di grup WhatsApp ini.
+
+                                [TUGAS UTAMA]
+                                Tugas Anda adalah berpartisipasi secara natural. Jika ada pertanyaan yang relevan dengan keahlian Anda (seputar produk dan layanan perusahaan), jawablah dengan informatif. Jaga agar percakapan tetap positif dan relevan.
+
+                                [ATURAN PENTING]
+                                <span class="hljs-number">1</span>.  **RELEVANSI**: Gunakan [INFO PRODUK] sebagai referensi HANYA JIKA ada anggota grup lain yang bertanya secara spesifik tentang hal itu. JANGAN proaktif menawarkan produk kecuali jika sangat relevan dengan topik diskusi.
+                                <span class="hljs-number">2</span>.  **BATASAN TOPIK**: Sama sekali JANGAN terlibat dalam percakapan di luar topik keahlian Anda (misalnya: gosip, politik, topik umum yang tidak relevan).
+                                <span class="hljs-number">3</span>.  **STRATEGI PENGALIHAN DI GRUP**: Jika ada yang bertanya hal di luar topik kepada Anda, jawab dengan singkat dan netral. Contoh: <span class="hljs-string">"Untuk hal tersebut saya kurang tahu informasinya."</span> Jangan mengalihkan secara paksa seperti di chat pribadi, cukup berhenti merespons topik itu.
+                                <span class="hljs-number">4</span>.  **TONE BAHASA**: Gunakan bahasa yang santai, natural, dan sopan, layaknya anggota grup lainnya. Hindari bahasa yang terlalu kaku atau seperti robot.
+
+                                ---
+                                [INFO PRODUK UNTUK REFERENSI ANDA]
+                                {productInfo}
+                                ---
+                                [KONTEKS PERCAKAPAN GRUP SEBELUMNYA]
+                                {chatHistory}
+                                {replyContext}
+                                ---
+
+                                [WAKTU SAAT INI]
+                                {currentTime}
+
+                                [PESAN BARU UNTUK ANDA RESPONS]
+                                <span class="hljs-string">"{userMessage}"</span>
+
+                                [JAWABAN ANDA]`,
+};
+</code></pre>
+<h3 id="-privatechatprompttemplate-mode-chat-pribadi">✉️ <code>privateChatPromptTemplate</code> – Mode Chat Pribadi</h3>
+<p>Bot bertindak sebagai <strong>customer service profesional</strong>.
+Prompt ini berisi peran, tugas, batasan, dan struktur konteks:</p>
+<table>
+<thead>
+<tr>
+<th>Elemen Prompt</th>
+<th>Penjelasan</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>PERAN UTAMA</strong></td>
+<td>Asisten ramah dan profesional dari perusahaan</td>
+</tr>
+<tr>
+<td><strong>TUGAS UTAMA</strong></td>
+<td>Menjawab pertanyaan, menjelaskan produk, dan membantu pemesanan</td>
+</tr>
+<tr>
+<td><strong>ATURAN PENTING</strong></td>
+<td>4 aturan penting:</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>Fokus pada konteks</li>
+<li>Larangan topik umum/nonproduk</li>
+<li>Strategi pengalihan jika out-of-topic</li>
+<li><p>Gunakan bahasa profesional dan sopan |
+| <strong>KONTEKS DINAMIS</strong> | Bot menerima:</p>
+</li>
+<li><p><code>{productInfo}</code> = daftar produk</p>
+</li>
+<li><code>{chatHistory}</code> = 20 pesan sebelumnya</li>
+<li><code>{replyContext}</code> = percakapan spesifik jika ada</li>
+<li><code>{userMessage}</code> = pesan terbaru</li>
+<li><code>{currentTime}</code> = waktu saat ini |</li>
+</ol>
+<blockquote>
+<p>🎯 <strong>Tujuan</strong>: Menciptakan jawaban cerdas, fokus, dan terhindar dari “halusinasi AI”.</p>
+</blockquote>
+<hr>
+<h3 id="-groupchatprompttemplate-mode-grup-whatsapp">👥 <code>groupChatPromptTemplate</code> – Mode Grup WhatsApp</h3>
+<p>Bot berperan sebagai <strong>anggota grup</strong> yang informatif, tidak mengganggu, dan hanya merespons jika topik relevan.</p>
+<table>
+<thead>
+<tr>
+<th>Elemen Prompt</th>
+<th>Penjelasan</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>PERAN UTAMA</strong></td>
+<td>Partisipan santai, berpengetahuan, dan tidak menonjol</td>
+</tr>
+<tr>
+<td><strong>TUGAS UTAMA</strong></td>
+<td>Menjawab pertanyaan seputar produk <em>jika ditanya</em>, tidak menawarkan duluan</td>
+</tr>
+<tr>
+<td><strong>ATURAN PENTING</strong></td>
+<td>4 aturan penting:</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>Jawab hanya jika relevan</li>
+<li>Abaikan gosip/topik umum</li>
+<li>Hindari mengarahkan seperti chat pribadi</li>
+<li><p>Gunakan gaya bahasa santai dan manusiawi |
+| <strong>KONTEKS DINAMIS</strong> | Template menyisipkan:</p>
+</li>
+<li><p><code>{productInfo}</code></p>
+</li>
+<li><code>{chatHistory}</code></li>
+<li><code>{replyContext}</code></li>
+<li><code>{userMessage}</code></li>
+<li><code>{currentTime}</code> |</li>
+</ol>
+<blockquote>
+<p>🎯 <strong>Tujuan</strong>: Bot terasa seperti “teman” di grup, bukan spammer atau sales agresif.</p>
+</blockquote>
+<hr>
+<h2 id="-daftar-placeholder-template">🧩 Daftar Placeholder Template</h2>
+<table>
+<thead>
+<tr>
+<th>Placeholder</th>
+<th>Keterangan</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{botName}</code></td>
+<td>Nama bot (dari konfigurasi <code>botName</code>)</td>
+</tr>
+<tr>
+<td><code>{productInfo}</code></td>
+<td>Informasi daftar produk dari <code>products</code></td>
+</tr>
+<tr>
+<td><code>{chatHistory}</code></td>
+<td>Riwayat 10–20 pesan sebelumnya</td>
+</tr>
+<tr>
+<td><code>{replyContext}</code></td>
+<td>Pesan tertentu yang sedang dijawab (jika ada)</td>
+</tr>
+<tr>
+<td><code>{currentTime}</code></td>
+<td>Waktu saat ini</td>
+</tr>
+<tr>
+<td><code>{userMessage}</code></td>
+<td>Pesan baru dari pengguna yang memicu respons AI</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="-keamanan-dan-kualitas-respons">🔒 Keamanan dan Kualitas Respons</h2>
+<p>Template ini dibuat untuk <strong>mencegah AI menjawab di luar konteks</strong> dan mengarahkan percakapan kembali ke:</p>
+<ul>
+<li>Produk atau layanan</li>
+<li>Pertanyaan relevan</li>
+<li>Proses pemesanan</li>
+</ul>
+<blockquote>
+<p>🧠 Ini adalah strategi mitigasi <strong>hallucination AI</strong> yang umum terjadi pada LLM.</p>
+</blockquote>
+<hr>
+<h2 id="-api-metode-publik-">🔌 API (Metode Publik)</h2>
+<table>
+<thead>
+<tr>
+<th>Metode</th>
+<th>Deskripsi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bot.start()</code></td>
+<td>Menjalankan bot</td>
+</tr>
+<tr>
+<td><code>bot.stop()</code></td>
+<td>Menghentikan bot dan koneksi WhatsApp</td>
+</tr>
+<tr>
+<td><code>bot.updateConfig(config: Partial&lt;BotConfig&gt;)</code></td>
+<td>Update konfigurasi saat runtime</td>
+</tr>
+<tr>
+<td><code>bot.addProduct(kode, data)</code></td>
+<td>Tambah produk ke katalog</td>
+</tr>
+<tr>
+<td><code>bot.removeProduct(kode)</code></td>
+<td>Hapus produk berdasarkan kode</td>
+</tr>
+<tr>
+<td><code>bot.addGroupToWhitelist(groupId)</code></td>
+<td>Tambah ID grup ke whitelist</td>
+</tr>
+<tr>
+<td><code>bot.addUserToBlacklist(userId)</code></td>
+<td>Tambah user ke daftar blacklist</td>
+</tr>
+</tbody>
+</table>
+<hr>
